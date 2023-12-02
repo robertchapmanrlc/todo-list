@@ -1,11 +1,6 @@
 import { createContext, useContext, useState } from "react";
 
-import type { Todo } from "../utils/types";
-
-type ToDoContextType = {
-  todos: Todo[];
-  addToDo: (newText: string) => void;
-};
+import type { Todo, ToDoContextType } from "../utils/types";
 
 export const ToDoContext = createContext<ToDoContextType>({
   todos: [],

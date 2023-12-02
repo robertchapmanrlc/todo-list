@@ -9,7 +9,7 @@ export default function AddToDoForm() {
   const { addToDo } = useContext(ToDoContext);
   
   const onSubmit = (data: FieldValues) => {
-    addToDo(data.todoText);
+    addToDo(data.todoText as string);
   }
 
   return (
