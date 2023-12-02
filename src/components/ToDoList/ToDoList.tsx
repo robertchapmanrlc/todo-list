@@ -1,4 +1,4 @@
-import { Todo } from "../../lib/types";
+import { Todo } from "../../utils/types";
 import ToDoItem from "../TodoItem/TodoItem";
 
 export default function ToDoList() {
