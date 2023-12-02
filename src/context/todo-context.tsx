@@ -4,10 +4,12 @@ import type { Todo } from "../utils/types";
 
 type ToDoContextType = {
   todos: Todo[];
+  addToDo: (newText: string) => void;
 };
 
 export const ToDoContext = createContext<ToDoContextType>({
-  todos: []
+  todos: [],
+  addToDo: () => {}
 });
 
 type ToDoContextProviderProps = {
@@ -19,8 +21,18 @@ export default function ToDoContextProvider({
 }: ToDoContextProviderProps) {
   const [todos, setTodos] = useState<Todo[]>([]);
 
+  const addToDo = (newText: string) => {
+    let newToDos: Todo[] = [
+      ...todos,
+      { id: new Date().getTime().toString(), text: newText },
+    ];
+    setTodos(newToDos);
+  };
+
   return (
-    <ToDoContext.Provider value={{ todos }}>{children}</ToDoContext.Provider>
+    <ToDoContext.Provider value={{ todos, addToDo }}>
+      {children}
+    </ToDoContext.Provider>
   );
 }
 
