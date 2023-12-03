@@ -2,7 +2,7 @@ import ToDoList from "./ToDoList";
 import { ToDoContext } from "../../context/todo-context";
 import { Todo, ToDoContextType } from "../../utils/types";
 
-import { render, screen } from "../../utils/test-utils";
+import { render, screen, userEvent } from "../../utils/test-utils";
 
 let todos: Todo[] = [
   {
@@ -35,7 +35,9 @@ describe("ToDoList", () => {
     beforeEach(async () => {
       providerProps = {
         todos: todos,
-        addToDo: vi.fn()
+        addToDo: vi.fn(),
+        deleteToDo: vi.fn(),
+        editToDo: vi.fn()
       };
     });
 
@@ -50,6 +52,40 @@ describe("ToDoList", () => {
       customRender(<ToDoList />, { providerProps });
       const todos: HTMLUListElement[] = screen.getAllByRole('listitem');
       expect(todos.length).toBe(3);
+    });
+  });
+
+  describe("behavior", () => {
+    let providerProps: ToDoContextType;
+    beforeEach(async () => {
+      providerProps = {
+        todos: todos,
+        addToDo: vi.fn(),
+        deleteToDo: vi.fn(),
+        editToDo: vi.fn()
+      };
+    });
+
+    test("should call the deleteToDo method when the delete button is click", async () => {
+      customRender(<ToDoList />, { providerProps });
+      const deleteButtons: HTMLButtonElement[] = screen.getAllByRole('button');
+      await userEvent.click(deleteButtons[1]);
+      expect(providerProps.deleteToDo).toHaveBeenCalledTimes(1);
+    });
+
+    test("should call the editToDo method when the confirm button is click", async () => {
+      customRender(<ToDoList />, { providerProps });
+      const editButtons: HTMLButtonElement[] = screen.getAllByRole('button');
+      await userEvent.click(editButtons[0]);
+
+      const textbox = screen.getByRole('textbox');
+      await userEvent.clear(textbox);
+      await userEvent.type(textbox, "Take out the trash");
+
+      const confirmButtons: HTMLButtonElement[] = screen.getAllByRole("button");
+      await userEvent.click(confirmButtons[0]);
+
+      expect(providerProps.editToDo).toHaveBeenCalledTimes(1);
     });
   });
 });

@@ -28,6 +28,8 @@ describe("AddToDoForm", () => {
       providerProps = {
         todos: [],
         addToDo: vi.fn(),
+        deleteToDo: vi.fn(),
+        editToDo: vi.fn()
       };
     });
     

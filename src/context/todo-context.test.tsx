@@ -7,7 +7,7 @@ import ToDoContextProvider, { ToDoContext } from "./todo-context";
 const CustomTest = () => {
   const { register, handleSubmit } = useForm();
 
-  const { todos, addToDo } = useContext(ToDoContext);
+  const { todos, addToDo, deleteToDo, editToDo } = useContext(ToDoContext);
 
   const onSubmit = (data: FieldValues) => {
     addToDo(data.newText as string);
@@ -27,6 +27,8 @@ const CustomTest = () => {
           <li key={todo.id}>{todo.text}</li>
         ))}
       </ul>
+      <button onClick={() => deleteToDo(todos[0].id)}>Delete</button>
+      <button onClick={() => editToDo(todos[0].id, "Edited")}>Edit</button>
     </>
   );
 };
@@ -45,6 +47,38 @@ describe("ToDoContext", () => {
       const helloTodo: HTMLElement = screen.getByText("Hello world");
       expect(todos.length).toBe(1);
       expect(helloTodo).toBeVisible();
+    });
+
+    describe("behavior", () => {
+      test("should correclty delete a todo with the deleteTodo method", async () => {
+        render(
+          <ToDoContextProvider>
+            <CustomTest />
+          </ToDoContextProvider>
+        );
+        
+        const form: HTMLElement = screen.getByRole("textbox");
+        await userEvent.type(form, "{enter}");
+        const deleteButton: HTMLButtonElement = screen.getByRole("button", { name: "Delete" });
+        await userEvent.click(deleteButton);
+        const todos: HTMLUListElement[] = screen.queryAllByRole("listitem");
+        expect(todos.length).toBe(0);
+      });
+
+      test("should correctly change todo with the editTodo method", async () => {
+        render(
+          <ToDoContextProvider>
+            <CustomTest />
+          </ToDoContextProvider>
+        );
+
+        const form: HTMLElement = screen.getByRole("textbox");
+        await userEvent.type(form, "{enter}");
+        const editButton: HTMLButtonElement = screen.getByRole("button", { name: "Edit" });
+        await userEvent.click(editButton);
+        const todo = screen.getByText("Edited");
+        expect(todo).toBeVisible();
+      })
     });
   });
 });
