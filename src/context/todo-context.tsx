@@ -4,7 +4,8 @@ import type { Todo, ToDoContextType } from "../utils/types";
 
 export const ToDoContext = createContext<ToDoContextType>({
   todos: [],
-  addToDo: () => {}
+  addToDo: () => { },
+  deleteToDo: () => { }
 });
 
 type ToDoContextProviderProps = {
@@ -24,8 +25,13 @@ export default function ToDoContextProvider({
     setTodos(newToDos);
   };
 
+  const deleteToDo = (id: string) => {
+    const filteredTodos = [...todos].filter((todo) => todo.id !== id);
+    setTodos(filteredTodos);
+  } 
+
   return (
-    <ToDoContext.Provider value={{ todos, addToDo }}>
+    <ToDoContext.Provider value={{ todos, addToDo, deleteToDo }}>
       {children}
     </ToDoContext.Provider>
   );

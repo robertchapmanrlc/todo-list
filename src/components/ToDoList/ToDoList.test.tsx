@@ -35,7 +35,8 @@ describe("ToDoList", () => {
     beforeEach(async () => {
       providerProps = {
         todos: todos,
-        addToDo: vi.fn()
+        addToDo: vi.fn(),
+        deleteToDo: vi.fn()
       };
     });
 
