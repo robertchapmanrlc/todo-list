@@ -23,7 +23,7 @@ const CustomTest = () => {
         />
       </form>
       <ul>
-        {todos.map((todo) => (
+        {todos?.map((todo) => (
           <li key={todo.id}>{todo.text}</li>
         ))}
       </ul>

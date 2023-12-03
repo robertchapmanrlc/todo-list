@@ -34,7 +34,8 @@ describe("ToDoList", () => {
     let providerProps: ToDoContextType;
     beforeEach(async () => {
       providerProps = {
-        todos: todos
+        todos: todos,
+        addToDo: vi.fn()
       };
     });
 
