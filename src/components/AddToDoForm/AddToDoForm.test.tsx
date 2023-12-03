@@ -26,7 +26,6 @@ describe("AddToDoForm", () => {
     let providerProps: ToDoContextType;
     beforeEach(async () => {
       providerProps = {
-        todos: [],
         addToDo: vi.fn(),
       };
     });

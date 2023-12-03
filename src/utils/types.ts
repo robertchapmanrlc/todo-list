@@ -4,6 +4,6 @@ export type Todo = {
 };
 
 export type ToDoContextType = {
-  todos: Todo[];
-  addToDo: (newText: string) => void;
+  todos?: Todo[];
+  addToDo?: (newText: string) => void;
 };

@@ -6,7 +6,7 @@ export default function ToDoList() {
 
   const { todos } = useToDoContext();
 
-  const todoList: Todo[] = todos;
+  const todoList: Todo[] = todos as Todo[];
 
   return (
     <div className="w-full pt-10">
