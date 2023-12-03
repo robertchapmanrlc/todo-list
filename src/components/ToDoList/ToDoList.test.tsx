@@ -72,5 +72,20 @@ describe("ToDoList", () => {
       await userEvent.click(deleteButtons[1]);
       expect(providerProps.deleteToDo).toHaveBeenCalledTimes(1);
     });
+
+    test("should call the editToDo method when the confirm button is click", async () => {
+      customRender(<ToDoList />, { providerProps });
+      const editButtons: HTMLButtonElement[] = screen.getAllByRole('button');
+      await userEvent.click(editButtons[0]);
+
+      const textbox = screen.getByRole('textbox');
+      await userEvent.clear(textbox);
+      await userEvent.type(textbox, "Take out the trash");
+
+      const confirmButtons: HTMLButtonElement[] = screen.getAllByRole("button");
+      await userEvent.click(confirmButtons[0]);
+
+      expect(providerProps.editToDo).toHaveBeenCalledTimes(1);
+    });
   });
 });

@@ -3,6 +3,7 @@ import { CheckCircle2, Pencil, Trash, XCircle } from "lucide-react";
 import { Todo } from "../../utils/types";
 import { useToDoContext } from "../../context/todo-context";
 import { useState } from "react";
+import { FieldValues, useForm } from "react-hook-form";
 
 interface ToDoItemProps {
   todo: Todo;
@@ -10,8 +11,13 @@ interface ToDoItemProps {
 
 export default function ToDoItem({ todo }: ToDoItemProps) {
   const [editing, setEditing] = useState(false);
+  const { register, handleSubmit } = useForm();
 
-  const { deleteToDo } = useToDoContext();
+  const { deleteToDo, editToDo } = useToDoContext();
+
+  const onSubmit = (data: FieldValues) => {
+    editToDo(todo.id, data.newText);
+  };
 
   return (
     <>
@@ -34,9 +40,13 @@ export default function ToDoItem({ todo }: ToDoItemProps) {
           </div>
         </div>
       ) : (
-        <form className="w-full h-14 px-4 flex items-center justify-between rounded-xl bg-accent-600">
+        <form
+          className="w-full h-14 px-4 flex items-center justify-between rounded-xl bg-accent-600"
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <input
             type="text"
+            {...register("newText", { required: true })}
             defaultValue={todo.text}
             className="w-3/4 bg-transparent text-xl text-white py-1 outline-none border-b-2 border-transparent focus:border-b-2 focus:border-b-white focus:outline-none transition-all"
             autoFocus
