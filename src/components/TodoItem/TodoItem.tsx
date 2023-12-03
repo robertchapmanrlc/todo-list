@@ -17,6 +17,7 @@ export default function ToDoItem({ todo }: ToDoItemProps) {
 
   const onSubmit = (data: FieldValues) => {
     editToDo(todo.id, data.newText);
+    setEditing(false);
   };
 
   return (
