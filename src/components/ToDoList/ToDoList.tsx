@@ -11,7 +11,7 @@ export default function ToDoList() {
   return (
     <div className="w-full pt-10">
       {todoList.length > 0 ? (
-        <ul>
+        <ul className="flex flex-col gap-y-5 ">
           {todoList.map((todo) => (
             <li key={todo.id}>
               <ToDoItem todo={todo} />
