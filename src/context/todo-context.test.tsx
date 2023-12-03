@@ -7,7 +7,7 @@ import ToDoContextProvider, { ToDoContext } from "./todo-context";
 const CustomTest = () => {
   const { register, handleSubmit } = useForm();
 
-  const { todos, addToDo, deleteToDo } = useContext(ToDoContext);
+  const { todos, addToDo, deleteToDo, editToDo } = useContext(ToDoContext);
 
   const onSubmit = (data: FieldValues) => {
     addToDo(data.newText as string);
@@ -28,6 +28,7 @@ const CustomTest = () => {
         ))}
       </ul>
       <button onClick={() => deleteToDo(todos[0].id)}>Delete</button>
+      <button onClick={() => editToDo(todos[0].id, "Edited")}>Edit</button>
     </>
   );
 };
@@ -63,6 +64,21 @@ describe("ToDoContext", () => {
         const todos: HTMLUListElement[] = screen.queryAllByRole("listitem");
         expect(todos.length).toBe(0);
       });
+
+      test("should correctly change todo with the editTodo method", async () => {
+        render(
+          <ToDoContextProvider>
+            <CustomTest />
+          </ToDoContextProvider>
+        );
+
+        const form: HTMLElement = screen.getByRole("textbox");
+        await userEvent.type(form, "{enter}");
+        const editButton: HTMLButtonElement = screen.getByRole("button", { name: "Edit" });
+        await userEvent.click(editButton);
+        const todo = screen.getByText("Edited");
+        expect(todo).toBeVisible();
+      })
     });
   });
 });

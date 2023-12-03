@@ -36,7 +36,8 @@ describe("ToDoList", () => {
       providerProps = {
         todos: todos,
         addToDo: vi.fn(),
-        deleteToDo: vi.fn()
+        deleteToDo: vi.fn(),
+        editToDo: vi.fn()
       };
     });
 
@@ -61,6 +62,7 @@ describe("ToDoList", () => {
         todos: todos,
         addToDo: vi.fn(),
         deleteToDo: vi.fn(),
+        editToDo: vi.fn()
       };
     });
 

@@ -5,7 +5,8 @@ import type { Todo, ToDoContextType } from "../utils/types";
 export const ToDoContext = createContext<ToDoContextType>({
   todos: [],
   addToDo: () => { },
-  deleteToDo: () => { }
+  deleteToDo: () => { },
+  editToDo: () => { }
 });
 
 type ToDoContextProviderProps = {
@@ -28,10 +29,20 @@ export default function ToDoContextProvider({
   const deleteToDo = (id: string) => {
     const filteredTodos = [...todos].filter((todo) => todo.id !== id);
     setTodos(filteredTodos);
-  } 
+  }
+
+  const editToDo = (id: string, newText: string) => {
+    let newToDos = [...todos];
+    newToDos.forEach((todo) => {
+      if (todo.id === id) {
+        todo.text = newText;
+      }
+    });
+    setTodos(newToDos);
+  };
 
   return (
-    <ToDoContext.Provider value={{ todos, addToDo, deleteToDo }}>
+    <ToDoContext.Provider value={{ todos, addToDo, deleteToDo, editToDo }}>
       {children}
     </ToDoContext.Provider>
   );
