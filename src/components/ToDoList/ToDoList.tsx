@@ -1,14 +1,18 @@
+import { useToDoContext } from "../../context/todo-context";
 import { Todo } from "../../utils/types";
 import ToDoItem from "../TodoItem/TodoItem";
 
 export default function ToDoList() {
-  const todos: Todo[] = [];
+
+  const { todos } = useToDoContext();
+
+  const todoList: Todo[] = todos as Todo[];
 
   return (
     <div className="w-full pt-10">
-      {todos.length > 0 ? (
+      {todoList.length > 0 ? (
         <ul>
-          {todos.map((todo) => (
+          {todoList.map((todo) => (
             <li key={todo.id}>
               <ToDoItem todo={todo} />
             </li>
