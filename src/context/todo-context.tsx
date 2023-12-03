@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 import type { Todo, ToDoContextType } from "../utils/types";
 
@@ -18,16 +18,25 @@ export default function ToDoContextProvider({
 }: ToDoContextProviderProps) {
   const [todos, setTodos] = useState<Todo[]>([]);
 
+  useEffect(() => {
+    if (localStorage.getItem("todos")) {
+      let savedTodos = JSON.parse(localStorage.getItem('todos')!);
+      setTodos(savedTodos);
+    }
+  }, []);
+
   const addToDo = (newText: string) => {
     let newToDos: Todo[] = [
       ...todos,
       { id: new Date().getTime().toString(), text: newText },
     ];
+    localStorage.setItem('todos', JSON.stringify(newToDos));
     setTodos(newToDos);
   };
 
   const deleteToDo = (id: string) => {
     const filteredTodos = [...todos].filter((todo) => todo.id !== id);
+    localStorage.setItem("todos", JSON.stringify(filteredTodos));
     setTodos(filteredTodos);
   }
 
@@ -38,6 +47,7 @@ export default function ToDoContextProvider({
         todo.text = newText;
       }
     });
+    localStorage.setItem("todos", JSON.stringify(newToDos));
     setTodos(newToDos);
   };
 

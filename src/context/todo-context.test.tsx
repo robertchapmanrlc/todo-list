@@ -23,7 +23,7 @@ const CustomTest = () => {
         />
       </form>
       <ul>
-        {todos?.map((todo) => (
+        {todos.map((todo) => (
           <li key={todo.id}>{todo.text}</li>
         ))}
       </ul>
@@ -34,6 +34,11 @@ const CustomTest = () => {
 };
 
 describe("ToDoContext", () => {
+
+  beforeEach(() => {
+    localStorage.removeItem("todos");
+  });
+
   describe("rendering", () => {
     test("should correctly add a todo with the addToDo method", async () => {
       render(
@@ -78,7 +83,7 @@ describe("ToDoContext", () => {
         await userEvent.click(editButton);
         const todo = screen.getByText("Edited");
         expect(todo).toBeVisible();
-      })
+      });
     });
   });
 });
